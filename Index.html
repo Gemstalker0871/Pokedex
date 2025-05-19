@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="Style.css">
+<body>
+    <main class = "main">
+        <header class ="header-home">
+        <div class="container">
+            <div class = "logo-wrapper">
+                <img src="Assets/pokeball.svg" alt="Pokeball">
+                <h1>Pokedex</h1>
+            </div>
+            <div class = "search-wrapper">
+                <div class="search-wrap">
+                    <img src="Assets/search.svg" alt="search" class="search-icon">
+                    <input type="text" class="search-input body3-fonts" placeholder="Search" id="search-input">
+                    <img src="Assets/cross.svg" alt="Cross Icon" class="search-close-icon" id="search-close-icon">
+                </div>
+                <div class="sort-wrapper">
+                    <div class="sort-wrap">
+                        <img src="Assets/sorting.svg" alt="Sorting" class="sort-icon" id="sort-icon">
+                    </div>
+                    <div class="filter-wrapper">
+                        <p class="body2-fonts">Sort by:</p>
+                        <div class="filter-wrap">
+                            <div>
+                                <input type="radio" id="number" name="filters" value="number" checked>
+                                <label for="number" class="body3-fonts">Number</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="name" name="filters" value="name">
+                                <label for="name" class="body3-fonts">Name</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="pokemon-list">
+        <div class="container">
+            <div class="list-wrapper"></div>
+        </div>
+        <div id="not-found-message">Pokemon Not Found</div>
+    </section>
+
+    </main>
+    
+</body>
+<script src="Script.js"></script>
+</html>
