@@ -111,3 +111,5 @@ function clearSearch(){
     displayPokemons(allPokemons);
     notFoundMessage.style.display = "none"
 }
+
+//Best
