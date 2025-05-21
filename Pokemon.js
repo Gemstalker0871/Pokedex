@@ -112,4 +112,3 @@ function clearSearch(){
     notFoundMessage.style.display = "none"
 }
 
-//Best
