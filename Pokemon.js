@@ -64,7 +64,7 @@ function displayPokemons(pokemon){
             const success = await fetchPokemonDataBeforeRedirect(pokemonID);
 
             if (success){
-                window.location.href = `Details.html`
+                window.location.href = `Details.html?id=${pokemonID}`;
             }
         });
 

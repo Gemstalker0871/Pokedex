@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokemon Details</title>
 </head>
+    <link rel="stylesheet" href="Style.css">
 <body>
-    <main class = "detain-main main">
+    <main class = "detail-main main">
     <header class="header">
         <div class="header-wrapper">
             <div class="header-wrap">
                 <a href="./Index.html" class="back-btn-wrap"><img src="Assets/back-to-home.svg" alt="Back Home" class="back-btn" id="back-btn"></a>
                 <div class="name-wrapp">
-                    <h1 class="name-wrap"></h1>
+                    <h1 class="name-wrap"><span class="name"></span></h1>
                 </div>
             </div>
             <div class="pokemon-id-wrap">
@@ -27,7 +28,7 @@
         </div>
         <a href="#" class="arrow right-arrow" id="rightArrow"><img src="Assets/chevron_right.svg" alt="forward"></a>
     </div>
-    <div class="detail-card-detail-wrapepr">
+    <div class="detail-card-detail-wrapper">
         <div class="power-wrapper">
             <p class = "body3-fonts type grass"></p>    
             <p class = "body3-fonts type poison"></p>  
@@ -47,7 +48,7 @@
 
              <div class="pokemon-detail-wrap">
                 <div class="pokemon-detail">
-                    <img src="Assets/height.svg" alt="height">
+                    <img src="Assets/height.svg" alt="height" class="straighten">
                     <p class="body3-fonts height"></p>
                 </div>
                 <p class="caption-fonts">Height</p>
@@ -56,7 +57,7 @@
 
              <div class="pokemon-detail-wrap">
                 <div class="pokemon-detail move"></div>
-                    <p class="caption-fonts">Move</p>
+                    <p class="caption-fonts">Ability</p>
             </div>
 
 
@@ -90,5 +91,5 @@
     <img src="Assets/pokedex.svg" alt="pokedex" class ="detail-bg">
     </main>
 </body>
-<script src ="Pokemon_details.js"
+<script src ="Pokemon_details.js"></script>
 </html>
