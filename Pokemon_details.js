@@ -28,7 +28,8 @@ async function loadPokemon(id){
         abilitiesWrapper.innerHTML = "";
 
         if(currentPokemonID === id){
-            displayPokemonDetails(pokemon);
+            displayPokemonDetails(pokemon, pokemonSpecies);
+            await displayForms(pokemonSpecies.varieties);
             const flavourText = getEnglishFlavourText(pokemonSpecies);
             document.querySelector(".body3-fonts.pokemon-description").textContent = flavourText;
             
@@ -151,40 +152,46 @@ function createAndAppendElement(parent, tag, options ={}){
 }
 
 
-function displayPokemonDetails(pokemon){
-    const{name, id, types, weight, height, abilities, stats} = pokemon
-    const capitalizePokemonName = capitalizeFirstLetter(name);
-    document.querySelector("title").textContent = capitalizePokemonName;
-    const detailMainElement = document.querySelector(".detail-main")
-    detailMainElement.classList.add(name.toLowerCase());
+function displayPokemonDetails(pokemon, pokemonSpecies){
+    const speciesName = capitalizeFirstLetter(pokemonSpecies.name);
+    const { name, id, types, weight, height, abilities, stats } = pokemon;
 
-    document.querySelector(".name-wrap .name").textContent = capitalizePokemonName;
+    // Use speciesName here instead of capitalizeFirstLetter(name)
+    document.querySelector("title").textContent = speciesName;
+
+    const detailMainElement = document.querySelector(".detail-main")
+    detailMainElement.classList.add(name.toLowerCase());  // keep this as-is, for CSS
+
+    document.querySelector(".name-wrap .name").textContent = speciesName;
 
     document.querySelector(".pokemon-id-wrap .body2-fonts").textContent = `#${String(id).padStart(3, "0")}`;
 
     const imageElement = document.querySelector(".detail-img-wrapper img");
-    imageElement.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
+    imageElement.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 
     const typeWrapper = document.querySelector(".power-wrapper");
     typeWrapper.innerHTML = "";
 
     types.forEach(({type}) => {
-        createAndAppendElement(typeWrapper, "p" , {
+        createAndAppendElement(typeWrapper, "p", {
             className: `body3-fonts type ${type.name}`,
             textContent: type.name,
         })
-    })
+    });
 
     document.querySelector(".pokemon-detail-wrap .pokemon-detail p.body3-fonts.weight").textContent = `${weight / 10}Kg`
     document.querySelector(".pokemon-detail-wrap .pokemon-detail p.body3-fonts.height").textContent = `${height / 10}m`
 
     const abilitiesWrapper = document.querySelector(".pokemon-detail-wrap .pokemon-detail.move")
-    abilities.forEach(({ability}) => {
-        createAndAppendElement(abilitiesWrapper, "p", {
-            className: "body3-fonts",
-            textContent: ability.name,
-        })
-    })
+const abilityNames = abilities.map(({ ability }) => ability.name).join(", ");
+const abilityElement = createAndAppendElement(abilitiesWrapper, "p", {
+    className: "body3-fonts",
+    textContent: abilityNames,
+});
+abilityElement.style.whiteSpace = "normal";
+abilityElement.style.wordBreak = "keep-all";
+abilityElement.style.overflowWrap = "break-word";
+   
 
     const startsWrapper = document.querySelector(".stats-wrapper")
     startsWrapper.innerHTML= ""
@@ -242,3 +249,25 @@ function displayPokemonDetails(pokemon){
         
     }
 
+
+    async function displayForms(varieties) {
+    const formWrapper = document.querySelector(".form-wrapper");
+    formWrapper.innerHTML = "";
+
+     const alternateForms = varieties.filter(variety => !variety.is_default);
+
+    for (let variety of alternateForms) {
+        const res = await fetch(variety.pokemon.url);
+        const data = await res.json();
+
+        const imgSrc = data.sprites.other["official-artwork"].front_default || data.sprites.front_default;
+
+        if (imgSrc) {
+            const img = document.createElement("img");
+            img.src = imgSrc;
+            img.alt = data.name;
+            img.title = capitalizeFirstLetter(data.name.replace(/-/g, " "));
+            formWrapper.appendChild(img);
+        }
+    }
+}

@@ -4,6 +4,7 @@ const searchInput = document.querySelector("#search-input");
 const numberFilter = document.querySelector("#number");
 const nameFilter = document.querySelector("#name");
 const notFoundMessage = document.querySelector("#not-found-message");
+const pokemonGenerations = {};
 
 let allPokemons = [];
 
@@ -12,7 +13,9 @@ fetch(`https://pokeapi.co/api/v2/pokemon-species?limit=10000&offset=0`)
 .then((data) => {
     allPokemons = data.results;
 
-    displayPokemons(allPokemons);
+    fetchGenerationData().then(() => {
+        displayPokemons(allPokemons);
+    });
 
 
     // console.log(data.results);
@@ -21,6 +24,20 @@ fetch(`https://pokeapi.co/api/v2/pokemon-species?limit=10000&offset=0`)
     // console.log(data.results[2].url);
     
 });
+
+
+async function fetchGenerationData() {
+    
+    for (let i = 1; i <= 9; i++) {
+        const res = await fetch(`https://pokeapi.co/api/v2/generation/${i}`);
+        const data = await res.json();
+
+        data.pokemon_species.forEach(species => {
+            const id = species.url.split("/")[6];
+            pokemonGenerations[id] = data.name;  // e.g., "generation-i"
+        });
+    }
+}
 
 
 async function fetchPokemonDataBeforeRedirect(id) {
@@ -43,8 +60,23 @@ async function fetchPokemonDataBeforeRedirect(id) {
 function displayPokemons(pokemon){
     listWrapper.innerHTML = "";
 
+    let lastGeneration = null;
+
     pokemon.forEach((pokemon) => {
         const pokemonID = pokemon.url.split("/")[6];
+
+        const generation = pokemonGenerations[pokemonID];
+
+        // Add generation header if this Pokémon is from a new generation
+        if (generation && generation !== lastGeneration) {
+            const genHeader = document.createElement("div");
+            genHeader.className = "generation-header";
+            genHeader.innerHTML = `Generation ${generation.toUpperCase().replace("GENERATION-", "").replace("-", " ")}`;
+            listWrapper.appendChild(genHeader);
+            lastGeneration = generation;
+        }
+
+
         const listItem = document.createElement("div");
         listItem.className = 'list-item';
         listItem.innerHTML = `
