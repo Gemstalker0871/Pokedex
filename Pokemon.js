@@ -22,7 +22,7 @@ fetch(`https://pokeapi.co/api/v2/pokemon-species?limit=10000&offset=0`)
     // console.log(data.results[2]);
     // console.log(data.results[2].name);
     // console.log(data.results[2].url);
-    
+    //
 });
 
 
